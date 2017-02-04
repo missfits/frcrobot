@@ -1,0 +1,14 @@
+package org.usfirst.frc.team6418.robot;
+
+import edu.wpi.first.wpilibj.DigitalOutput;
+import edu.wpi.first.wpilibj.IterativeRobot;
+
+public class GreenLight extends IterativeRobot 
+{
+	DigitalOutput dio = new DigitalOutput(0);
+	public GreenLight()
+	{
+		dio.set(true);
+	}
+
+}
