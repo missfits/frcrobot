@@ -211,7 +211,7 @@ public class Robot extends IterativeRobot {
 		
 		if (driveMode.equalsIgnoreCase("TANK")) {
 
-			driveTrain.tankDrive(-1*stick.getY(),-1*stick.getRawAxis(5));
+			driveTrain.tankDrive(-1*stick.getY(),-1*stick2.getY());
 		}
 		//left axis: stick.getY();
 		//right axis: stick.getRawAxis(5);
