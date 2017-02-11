@@ -1,0 +1,75 @@
+package org.usfirst.frc.team6418.robot.subsystems;
+
+import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.Encoder;
+/**
+ *
+ */
+public class EncoderSubsystem extends Subsystem 
+{
+	// Put methods for controlling this subsystem
+	// here. Call these from Commands.	//Left Encoder
+	
+	int b = 1;
+	int c = 2;
+	Encoder encLeft = new Encoder(b, c);
+
+	//Right Encoder
+	int d = 3;
+	int e = 4;
+	Encoder encRight = new Encoder(d, e, true);
+	
+
+	
+	public void initDefaultCommand() {
+		// Set the default command for a subsystem here.
+		// setDefaultCommand(new MySpecialCommand());
+		encLeft.setMinRate(0.1);
+		encLeft.setDistancePerPulse(1440);
+		encLeft.setSamplesToAverage(100);
+	
+
+
+		encRight.setMinRate(0.1);
+		encRight.setDistancePerPulse(1440);
+		encRight.setSamplesToAverage(100);
+		
+		
+		
+		
+		
+	}
+	
+	
+	public void encoderLoop() {
+		System.out.println("in encoder subsystem");
+		
+		
+		while(true) {
+		
+			double distanceTraveledRight = encRight.getDistance();
+			double distanceTraveledLeft = encLeft.getDistance();
+		
+			double rightRate = encRight.getRate();
+			double leftRate = encLeft.getRate();
+			
+
+			System.out.println("distance right " + distanceTraveledRight);
+			System.out.println("distance left "+ distanceTraveledLeft);
+			System.out.println();
+			System.out.println("rate Right "+ rightRate);
+			System.out.println("rate Left "	+ leftRate);
+			
+			
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+}
+}
+
