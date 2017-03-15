@@ -44,9 +44,7 @@ public class Robot extends IterativeRobot {
 	public static GreenLightSystem greenlight = new GreenLightSystem();
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
-	public static CameraServer cameraServer;
 	//Testing UI, probably should put all joystick and buttons in a separate OI class
-	public static CameraServer cameraServer2;
 	public static Joystick stick = new Joystick(0);
 	public static Joystick stick2 = new Joystick(1);
 	//for the second joystick
@@ -73,8 +71,6 @@ public class Robot extends IterativeRobot {
 	public static ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 	//hk
 	
-	//Sensors
-	public static UltraSonic s1;
 	
 	//Encoders
 	public static Encoder leftEncoder;
@@ -102,10 +98,6 @@ public class Robot extends IterativeRobot {
 		chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
-		//cameraServer.getInstance().startAutomaticCapture();
-		//cameraServer2.getInstance().startAutomaticCapture();
-		//Anya-- changed drive train to left, right. Was 1,0. Added DriveSide 
-		//double KpR = 2;
 
 		winch = new Winch(WINCHMOTOR, 9);
 		//how to call: public void tankDrive(double x, double y){
@@ -119,32 +111,10 @@ public class Robot extends IterativeRobot {
 		leftEncoder = new Encoder(1, 2, true, Encoder.EncodingType.k4X);
 		rightEncoder = new Encoder(4, 3, false, Encoder.EncodingType.k4X);
 		
-		state = "forward1";
-		
 
-		//Testing Sensor...
-		s1 = new UltraSonic(0);
-		//Testing Video ... 
-/*		new Thread(() -> {
-            UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-            camera.setResolution(640, 480);
-           
-            CvSink cvSink = CameraServer.getInstance().getVideo();
-            CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
-            
-            Mat source = new Mat();
-            Mat output = new Mat();
-            //List<Mat> bgr = new Vector<Mat>();
-            
-            while(!Thread.interrupted()) {
-                cvSink.grabFrame(source);
-              //  Core.split(source,bgr );
-                Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
-                Imgproc.threshold(output, output, 150, 255, Imgproc.THRESH_TOZERO);
-                outputStream.putFrame(output);
-            }
-        }).start(); */
 		
+		UsbCamera cam0 = CameraServer.getInstance().startAutomaticCapture(0);
+
 		//switching between drive modes - Halie 
 		
 		driveMode ="TANK";
@@ -162,6 +132,9 @@ public class Robot extends IterativeRobot {
 		//TopButton.whenPressed(new GreenLight());
 		
 		//RightButton.whenPressed(new MoveForward());
+		
+		
+		state = "forward1";
 		
 	}
 
@@ -255,44 +228,6 @@ public class Robot extends IterativeRobot {
 		//	System.out.println("encoder count: "+ ((Good_DriveSide) left).getEncoderCount());
 			//QUESTION: if i made my own method inside good_driveside, which implements speedController
 			//do I have to cast left as a goodDriveside instead of speedcontroller?
-			
-
-		if (myTimer.get() < 3) {
-			//timer measured in seconds
-			moveForward(9.5);
-		
-		}
-		else if (myTimer.get() > 3 && myTimer.get() < 5) {
-			left.set(0);
-			right.set(0);
-		}
-		*/
-		
-	/*	
-		System.out.println("right rate: " + rightEncoder.getRate());
-		System.out.println("timer :" + myTimer.get()); 
-		
-		//autoDriveStraight(1.5);		
-		
-		if (leftEncoder.getDistance() < feetToEncUnits(1.5)) {
-			//rotations: X * 2400 / 360 
-
-			//feet: 
-			left.set(.3);
-			right.set(.3);
-		}
-
-		
-		else {
-			left.set(0);
-			right.set(0);
-			
-		} 
-		
-		System.out.println("angle = " + gyro.getAngle());
-		
-		*/
-		
 		
 		if (state.equals("forward1")) {
 			moveForward(9.5167);
@@ -361,11 +296,6 @@ public class Robot extends IterativeRobot {
 //needs a String/boolean parameter		
 		Scheduler.getInstance().run();
 		
-	//	UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-		cameraServer.getInstance().startAutomaticCapture();
-		//double v = s1.getDistance();
-
-//		System.out.println(v);
 /*		if (cameraMode.equalsIgnoreCase("BACK")){
 			
 			cameraServer.getInstance().startAutomaticCapture();
@@ -377,7 +307,7 @@ public class Robot extends IterativeRobot {
 		} */
 
 		//tank drive - Aliya / Halie 
-	/*	
+		
 		
 		if (driveMode.equalsIgnoreCase("TANK")) {
 
@@ -402,7 +332,7 @@ public class Robot extends IterativeRobot {
 		
 		//winch control - Halie 
 		winch.tankDrive(stick.getRawAxis(3), 0);
-		*/
+		
 
 	}
 			
@@ -412,7 +342,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		left.set(0.5);
 		LiveWindow.run();
 	}
 	 
